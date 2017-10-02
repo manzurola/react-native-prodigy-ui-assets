@@ -14,7 +14,7 @@ export default class PredictiveTextAnswerInput extends Component {
             isEmpty: true,
             index: 0,
             answer: [],
-            showChoices: props.showChoices || false
+            isKeyboardShowing: props.showKeyboard || false
         };
 
         let splitChoices = [];
@@ -55,7 +55,7 @@ export default class PredictiveTextAnswerInput extends Component {
                     {this.state.isEmpty ? this.getPlaceholderText() : this.getInputText()}
                 </TouchableOpacity>
                 <PredictiveTextKeyboard
-                    showing={false}
+                    showing={this.state.isKeyboardShowing}
                     choices={this.choices[this.state.index]}
                     onKeyDidPress={(text) => this.pushWord(text)}
                 />
@@ -74,7 +74,7 @@ export default class PredictiveTextAnswerInput extends Component {
         if (!this.state.isEmpty) {
             this.popWord();
         } else {
-            !this.state.showChoices && this.showChoices();
+            !this.state.isKeyboardShowing && this.showKeyboard();
             this.onAnswerChange();
         }
     }
@@ -110,16 +110,16 @@ export default class PredictiveTextAnswerInput extends Component {
         }, this.onAnswerChange);
     }
 
-    showChoices() {
+    showKeyboard() {
         console.log("showing choices");
         this.setState({
-            showChoices: true
+            isKeyboardShowing: true
         }, this.props.onKeyboardDidShow());
     }
 
     hideChoices() {
         this.setState({
-            showChoices: false
+            isKeyboardShowing: false
         }, this.props.onKeyboardDidHide())
     }
 

@@ -17,7 +17,7 @@ export default class MultiChoiceAnswerInput extends Component {
             isEmpty: true,
             index: 0,
             answer: [],
-            showChoices: props.showChoices || false
+            showChoices: props.showKeyboard || false
         };
 
         let choices = [

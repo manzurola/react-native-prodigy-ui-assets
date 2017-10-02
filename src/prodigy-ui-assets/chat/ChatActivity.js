@@ -39,7 +39,7 @@ export default class ChatActivity extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={[styles.scrollView, styles.scrollViewKeyboardOpen]}>
+                <View style={[styles.scrollView]}>
                     <FlatList style={{flex:1, overflow: 'visible', paddingBottom: 200}}
                               ref='flatList'
                               data={[
@@ -121,7 +121,7 @@ const styles = {
     scrollView: {
         // position: 'absolute',
         flex: 1,
-
+        paddingBottom: 200,
         // bottom: 70,
         // height: SCREEN_HEIGHT - 270,
         // width: SCREEN_WIDTH,
@@ -133,7 +133,7 @@ const styles = {
         // height: SCREEN_HEIGHT - 200,
 
         // bottom: 200,
-        paddingBottom: 200,
+        // paddingBottom: 200,
     },
     block: {
         // width: 320,
