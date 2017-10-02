@@ -7,27 +7,15 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export default class PredictiveTextKeyboard extends Component {
 
-    constructor(props){
-        super(props);
-        console.log("Predictive keyboard");
-        console.log(props);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.index !== this.props.index) {
-            console.log("keyboard componentWillReceiveProps");
-            console.log(nextProps);
-        }
-    }
-
     render() {
+        if (!this.props.showing) return null;
         return (
             <View style={[styles.container, this.props.style]}>
                 {this.getTextButton(0)}
                 {this.getTextButton(1)}
                 {this.getTextButton(2)}
             </View>
-        )
+        );
     }
 
     onKeyDidPress(text) {
@@ -36,7 +24,6 @@ export default class PredictiveTextKeyboard extends Component {
 
     getTextButton(i) {
         let text = this.props.choices[i];
-        console.log("button text: " + text);
 
         return <TextButton
             style={styles.button}
@@ -49,9 +36,12 @@ export default class PredictiveTextKeyboard extends Component {
 
 const styles = {
     container: {
+        width: SCREEN_WIDTH,
+        height: 200,
+        flexDirection: 'row'
     },
     button: {
         height: 30,
-        flex:1,
+        flex: 1,
     }
 };

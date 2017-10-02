@@ -29,8 +29,6 @@ export default class PredictiveTextAnswerInput extends Component {
             if (words.length > longest) longest = words.length;
         }
 
-        console.log(splitChoices);
-
         // first index holds the choices at this.state.index
         let choices = [];
         for (let i = 0; i < longest; i++) {
@@ -44,8 +42,6 @@ export default class PredictiveTextAnswerInput extends Component {
             choices.push(choicesAtI);
         }
 
-        console.log("longest " + longest);
-        console.log(choices);
         this.choices = choices;
     }
 
@@ -58,13 +54,11 @@ export default class PredictiveTextAnswerInput extends Component {
                                   }}>
                     {this.state.isEmpty ? this.getPlaceholderText() : this.getInputText()}
                 </TouchableOpacity>
-                {
-                    !this.state.showChoices ? null :
-                        <PredictiveTextKeyboard
-                            choices={this.choices[this.state.index]}
-                            onKeyDidPress={(text) => this.pushWord(text)}
-                        />
-                }
+                <PredictiveTextKeyboard
+                    showing={false}
+                    choices={this.choices[this.state.index]}
+                    onKeyDidPress={(text) => this.pushWord(text)}
+                />
             </View>
         )
     }
@@ -165,11 +159,6 @@ const styles = {
         // flex: 1,
     },
     inputText: {},
-    choiceContainer: {
-        width: SCREEN_WIDTH,
-        height: 200,
-        flexDirection: 'row'
-    },
     button: {
         width: SCREEN_WIDTH / 3,
         borderRadius: 0,

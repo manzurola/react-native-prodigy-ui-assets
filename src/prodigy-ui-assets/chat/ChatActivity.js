@@ -4,6 +4,7 @@ import HorizontalSeparator from "../common/HorizontalSeparator";
 import ChatBubble from "./ChatBubble";
 import ColorPalette from "./ColorPalette";
 import TextAnswerInput from "./PredictiveTextAnswerInput";
+import TextButton from "../common/TextButton";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -33,22 +34,20 @@ export default class ChatActivity extends Component {
         this.state = {
             keyboardOpen: false,
         };
-        this.contentHeight = 0;
-        this.scrollViewHeight = 0;
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={[styles.scrollView, this.state.keyboardOpen && styles.scrollViewKeyboardOpen]}>
-                    <FlatList style={{flex:1, overflow: 'visible',}}
+                <View style={[styles.scrollView, styles.scrollViewKeyboardOpen]}>
+                    <FlatList style={{flex:1, overflow: 'visible', paddingBottom: 200}}
                               ref='flatList'
                               data={[
-                                  {key: 'Devin', text: 'Devin'},
+                                  {key: 'Devin', text: 'Devin\n and a new long line...?'},
                                   {key: 'Jackson', text: 'Jackson'},
                                   {key: 'James', text: 'James'},
                                   {key: 'Joel', text: 'Joel'},
-                                  {key: 'John', text: 'John'},
+                                  {key: 'John', text: 'John\nasdasdasd\asdkjhdasd\vvskdjb'},
                                   {key: 'Jillian', text: 'Jillian'},
                                   {key: 'Jimmy', text: 'Jimmy'},
                                   {key: 'Julie', text: 'Julie'},
@@ -56,9 +55,13 @@ export default class ChatActivity extends Component {
                                   {key: 'Julie3', text: 'Julie3'},
                                   {key: 'Julie4', text: 'Julie4'},
                               ]}
-                              renderItem={({item}) => <ChatBubble style={styles.leftChatBubble}
+                              renderItem={({item}) =>
+                                  <View>
+                                  <HorizontalSeparator/>
+                                  <ChatBubble style={styles.leftChatBubble}
                                                                   side={"left"}
-                                                                  text={item.text}/>}
+                                                                  text={item.text}/>
+                                  </View>}
                         // onContentSizeChange={(w, h) => this.contentHeight = h}
                         // onLayout={ev => this.scrollViewHeight = ev.nativeEvent.layout.height}>
                     />
@@ -71,6 +74,9 @@ export default class ChatActivity extends Component {
                     onAnswerChange={(newAnswer) => this.onAnswerChange(newAnswer)}
                     onKeyboardDidShow={() => this.onKeyboardDidShow()}
                 />
+                {/*<TextButton text={"scroll to last element"} onPress={()=>{*/}
+                    {/*this.scrollToBottom();*/}
+                {/*}} />*/}
             </View>
         )
     }
@@ -127,7 +133,7 @@ const styles = {
         // height: SCREEN_HEIGHT - 200,
 
         // bottom: 200,
-
+        paddingBottom: 200,
     },
     block: {
         // width: 320,
@@ -139,7 +145,7 @@ const styles = {
         paddingBottom: 50,
     },
     answer: {
-        position: 'absolute',
+        // position: 'absolute',
     },
     leftChatBubble: {
         margin: 5,

@@ -51,7 +51,7 @@ export default class MultiChoiceAnswerInput extends Component {
                 </TouchableOpacity>
                 {
                     !this.state.showChoices ? null :
-                        <View style={[styles.choiceContainer]}>
+                        <View style={[styles.keyboard]}>
                             {[this.getTextButton(0), this.getTextButton(1), this.getTextButton(2)]}
                         </View>
                 }
@@ -166,7 +166,7 @@ const styles = {
         // flex: 1,
     },
     inputText: {},
-    choiceContainer: {
+    keyboard: {
         width: SCREEN_WIDTH,
         height: 200,
         flexDirection: 'row'
