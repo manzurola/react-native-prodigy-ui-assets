@@ -38,7 +38,7 @@ const styles = {
     container: {
         width: SCREEN_WIDTH,
         height: 200,
-        flexDirection: 'row'
+        flexDirection: 'column'
     },
     button: {
         height: 30,

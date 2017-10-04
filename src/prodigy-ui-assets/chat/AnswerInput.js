@@ -1,12 +1,13 @@
 import React, {Component} from "react";
 import {Dimensions, TouchableOpacity, View} from "react-native";
-import PredictiveTextKeyboard from "./AnswerKeyboard";
 import UIText from "../common/UIText";
+import ThreeWordsKeyboard from "./ThreeWordsKeyboard";
+import ColorPalette from "./ColorPalette";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
-export default class PredictiveTextAnswerInput extends Component {
+export default class AnswerInput extends Component {
 
     constructor(props) {
         super(props);
@@ -48,8 +49,7 @@ export default class PredictiveTextAnswerInput extends Component {
         return (
             <View style={[styles.container, this.props.style]}>
                 <View style={styles.input}>
-                    <TouchableOpacity
-                                      onPress={() => {
+                    <TouchableOpacity onPress={() => {
                                           this.onInputPress();
                                       }}
                                       onLayout={(event) => {
@@ -57,10 +57,10 @@ export default class PredictiveTextAnswerInput extends Component {
                                           console.log(event.nativeEvent);
                                       }}
                     >
-                        {this.state.isEmpty ? this.getPlaceholderText() : this.getInputText()}
+                        {this.state.isEmpty ? this.renderPlaceholderText() : this.renderInputText()}
                     </TouchableOpacity>
                 </View>
-                <PredictiveTextKeyboard
+                <ThreeWordsKeyboard
                     showing={this.state.isKeyboardShowing}
                     choices={this.choices[this.state.index]}
                     onKeyDidPress={(text) => this.pushWord(text)}
@@ -91,7 +91,7 @@ export default class PredictiveTextAnswerInput extends Component {
     }
 
     onAnswerChange() {
-        this.props.onAnswerChange(this.getInputText());
+        this.props.onAnswerChange(this.renderInputText());
     }
 
     pushWord(text) {
@@ -129,11 +129,11 @@ export default class PredictiveTextAnswerInput extends Component {
         }, this.props.onKeyboardDidHide())
     }
 
-    getPlaceholderText() {
+    renderPlaceholderText() {
         return <UIText style={styles.placeholderText}>{this.props.placeholderText}</UIText>
     }
 
-    getInputText() {
+    renderInputText() {
         let {answer} = this.state;
         let text = answer[0];
         for (let i = 1; i < answer.length; i++) {
@@ -156,15 +156,18 @@ const styles = {
     },
     input: {
         width: SCREEN_WIDTH,
-        minHeight: 30,
+        minHeight: 40,
         paddingLeft: 30,
         alignItems: 'flex-start',
         justifyContent: 'center',
     },
     placeholderText: {
-        // flex: 1,
+        textAlign: 'center',
+        color: ColorPalette.MEDIUM_GRAY_2
     },
-    inputTextinputText: {},
+    inputText: {
+        color: ColorPalette.BLACK
+    },
     button: {
         width: SCREEN_WIDTH / 3,
         borderRadius: 0,

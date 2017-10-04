@@ -85,9 +85,7 @@ export default class ChatActivity extends Component {
     }
 
     scrollToBottom(animated = true) {
-
         this.refs.messageContainer.scrollToEnd();
-        // this.refs.flatList.scrollToOffset({offset: -300});
     }
 
     onAnswerChange(newAnswer) {

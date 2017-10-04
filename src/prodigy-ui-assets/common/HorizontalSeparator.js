@@ -17,7 +17,7 @@ export default class HorizontalSeparator extends Component {
 
 const styles = {
     container: {
-        height: 20,
+        height: 1,
         backgroundColor: "#CFCDD7",
     }
 };

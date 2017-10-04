@@ -16,6 +16,6 @@ const styles = {
     text: {
         color: "#000000",
         // fontFamily: "josefin-sans-regular",
-        fontSize: 20,
+        fontSize: 17,
     }
 };

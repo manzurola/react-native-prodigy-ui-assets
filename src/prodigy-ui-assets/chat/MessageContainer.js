@@ -3,6 +3,7 @@ import {Dimensions, FlatList, LayoutAnimation, TouchableWithoutFeedback, UIManag
 import HorizontalSeparator from "../common/HorizontalSeparator";
 import ChatBubble from "./ChatBubble";
 import ColorPalette from "./ColorPalette";
+import Message from "./Message";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -40,15 +41,7 @@ export default class MessageContainer extends Component {
                               console.log("on scroll")
                           }}
                           renderItem={({item}) => {
-                              // if (item.key === 'dummy') {
-                              //     return <View style={{height: 0}}/>
-                              // }
-                              return <View>
-                                  <HorizontalSeparator/>
-                                  <ChatBubble style={styles.leftChatBubble}
-                                              side={"left"}
-                                              text={item.text}/>
-                              </View>
+                              return <Message text={item.text}/>
                           }}
                           inverted={true}
                 />
@@ -60,14 +53,4 @@ export default class MessageContainer extends Component {
         this.refs.flatList.scrollToIndex({viewPosition: 1, index: 0});
     }
 
-}
-
-const styles = {
-    leftChatBubble: {
-        margin: 5,
-        backgroundColor: ColorPalette.LIGHT_GRAY_1,
-    },
-    rightChatBubble: {
-        right: 20,
-    }
 }
