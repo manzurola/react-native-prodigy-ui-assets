@@ -20,10 +20,10 @@ let data ={
     targetSentence: "A dog is cute",
     answer: "Dogs are cute",
     choices: [
-        "Dogs is a cute",
+        "Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute ",
         // "Dog are cute",
-        "Dogs are cute",
-        "A dogs are"
+        "Dogs are cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute ",
+        "A dogs are Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute "
     ]
 
 };

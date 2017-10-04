@@ -1,7 +1,8 @@
 import React from "react";
 import {
     LayoutAnimation, StatusBar, StyleSheet, Text, TouchableHighlight, TouchableOpacity, UIManager,
-    View
+    View,
+    Dimensions
 } from "react-native";
 import {Font} from 'expo';
 import {TabNavigator} from 'react-navigation';
@@ -9,7 +10,10 @@ import TransformActivityDemo from "./src/prodigy-ui-assets/activities/TransformA
 import ChatActivityDemo from "./src/prodigy-ui-assets/chat/ChatActivityDemo";
 import TextInputChatDemo from "./src/TextInputChatDemo";
 import TextButton from "./src/prodigy-ui-assets/common/TextButton";
+import GiftedChatDemo from "./src/GiftedChatDemo";
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const CustomLayoutLinear = {
     duration: 500,
@@ -53,6 +57,8 @@ export default class App extends React.Component {
     }
 
     render() {
+        console.log("SCREEN_WIDTH: " + SCREEN_WIDTH);
+        console.log("SCREEN_HEIGHT: " + SCREEN_HEIGHT);
         return (
             <View style={styles.container}>
                 <StatusBar hidden={true}/>

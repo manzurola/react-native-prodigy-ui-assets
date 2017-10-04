@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {TouchableHighlight, TouchableWithoutFeedback, View} from "react-native";
+import {TouchableHighlight, View} from "react-native";
 import TimerMixin from "react-timer-mixin";
 import UIText from "./UIText";
 import FadeIn from "./FadeIn";
@@ -76,7 +76,8 @@ export default class TextButton extends Component {
         for (let i = 0; i < value.length; i++) {
             let char = value[i];
             chars.push(
-                <FadeIn delay={30 * i}>
+                <FadeIn delay={30 * i}
+                        key={i}>
                     <UIText style={[
                         styles.text,
                         this.state.pressed && styles.textPressed,

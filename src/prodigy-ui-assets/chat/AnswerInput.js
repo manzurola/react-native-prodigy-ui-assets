@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Dimensions, TouchableOpacity, View} from "react-native";
-import PredictiveTextKeyboard from "./PredictiveTextKeyboard";
+import PredictiveTextKeyboard from "./AnswerKeyboard";
 import UIText from "../common/UIText";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -34,7 +34,6 @@ export default class PredictiveTextAnswerInput extends Component {
         for (let i = 0; i < longest; i++) {
             let choicesAtI = [];
             for (let j = 0; j < splitChoices.length; j++) {
-                console.log(splitChoices[i]);
                 if (splitChoices[j].length > i) {
                     choicesAtI.push(splitChoices[j][i]);
                 }
@@ -48,12 +47,19 @@ export default class PredictiveTextAnswerInput extends Component {
     render() {
         return (
             <View style={[styles.container, this.props.style]}>
-                <TouchableOpacity style={styles.input}
-                                  onPress={() => {
-                                      this.onInputPress();
-                                  }}>
-                    {this.state.isEmpty ? this.getPlaceholderText() : this.getInputText()}
-                </TouchableOpacity>
+                <View style={styles.input}>
+                    <TouchableOpacity
+                                      onPress={() => {
+                                          this.onInputPress();
+                                      }}
+                                      onLayout={(event) => {
+                                          console.log("input changed size");
+                                          console.log(event.nativeEvent);
+                                      }}
+                    >
+                        {this.state.isEmpty ? this.getPlaceholderText() : this.getInputText()}
+                    </TouchableOpacity>
+                </View>
                 <PredictiveTextKeyboard
                     showing={this.state.isKeyboardShowing}
                     choices={this.choices[this.state.index]}
@@ -150,7 +156,7 @@ const styles = {
     },
     input: {
         width: SCREEN_WIDTH,
-        minHeight: 70,
+        minHeight: 30,
         paddingLeft: 30,
         alignItems: 'flex-start',
         justifyContent: 'center',
@@ -158,7 +164,7 @@ const styles = {
     placeholderText: {
         // flex: 1,
     },
-    inputText: {},
+    inputTextinputText: {},
     button: {
         width: SCREEN_WIDTH / 3,
         borderRadius: 0,

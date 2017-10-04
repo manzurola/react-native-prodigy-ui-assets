@@ -43,12 +43,14 @@ export default class MultiChoiceAnswerInput extends Component {
     render() {
         return (
             <View style={[styles.container, this.props.style]}>
-                <TouchableOpacity style={styles.input}
-                                  onPress={() => {
-                                      this.onInputPress();
-                                  }}>
-                    {this.state.isEmpty ? this.getPlaceholderText() : this.getInputText()}
-                </TouchableOpacity>
+                <View style={styles.input}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.onInputPress();
+                        }}>
+                        {this.state.isEmpty ? this.getPlaceholderText() : this.getInputText()}
+                    </TouchableOpacity>
+                </View>
                 {
                     !this.state.showChoices ? null :
                         <View style={[styles.keyboard]}>
@@ -157,7 +159,7 @@ const styles = {
     },
     input: {
         width: SCREEN_WIDTH,
-        minHeight: 70,
+        minHeight: 30,
         paddingLeft: 30,
         alignItems: 'start',
         justifyContent: 'center',
@@ -165,7 +167,9 @@ const styles = {
     placeholderText: {
         // flex: 1,
     },
-    inputText: {},
+    inputText: {
+        // flex: 1,
+    },
     keyboard: {
         width: SCREEN_WIDTH,
         height: 200,
