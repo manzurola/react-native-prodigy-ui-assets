@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {Dimensions, LayoutAnimation, UIManager, View} from "react-native";
-import HorizontalSeparator from "../common/HorizontalSeparator";
 import ColorPalette from "./ColorPalette";
 import TextAnswerInput from "./AnswerInput";
 import MessageContainer from "./MessageContainer";
+import Message from "./Message";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -23,8 +23,8 @@ const CustomLayoutLinear = {
 };
 
 const DATA = [
-    {key: 'Devin', text: 'Devin\n and a new long line...?'},
-    {key: 'Jackson', text: 'Jackson'},
+    {id:0, text: 'Prepare to be crushed!'},
+    {id:1, text: 'Could you help me wiuth some howmeplease'},
     {key: 'James', text: 'James'},
     {key: 'Joel', text: 'Joel'},
     {key: 'John', text: 'John\nasdasdasd\asdkjhdasd\vvskdjb'},
@@ -50,13 +50,7 @@ export default class ChatActivity extends Component {
         return (
             <View style={styles.container}>
                 {this.renderMessageContainer()}
-                <TextAnswerInput
-                    style={styles.answer}
-                    choices={this.props.choices}
-                    placeholderText={this.props.instructions}
-                    onAnswerChange={(newAnswer) => this.onAnswerChange(newAnswer)}
-                    onKeyboardDidShow={() => this.onKeyboardDidShow()}
-                />
+                {this.renderTextAnswerInput()}
             </View>
         )
     }
@@ -70,6 +64,23 @@ export default class ChatActivity extends Component {
             ]}
             data={this.state.messages}
         />
+    }
+
+    renderTextAnswerInput() {
+        const {choices, instructions} = this.props;
+        return (
+            <TextAnswerInput
+                style={styles.answer}
+                choices={this.props.choices}
+                placeholderText={this.props.instructions}
+                onAnswerChange={(newAnswer) => this.onAnswerChange(newAnswer)}
+                onKeyboardDidShow={() => this.onKeyboardDidShow()}
+            />
+        )
+    }
+
+    renderMessage(item) {
+        return <Message {...item}/>;
     }
 
     componentWillUpdate() {
@@ -114,8 +125,7 @@ const styles = {
         paddingTop: 50,
         paddingBottom: 50,
     },
-    answer: {
-    },
+    answer: {},
     leftChatBubble: {
         margin: 5,
         backgroundColor: ColorPalette.LIGHT_GRAY_1,

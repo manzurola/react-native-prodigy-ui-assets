@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {Dimensions, View} from "react-native";
-import HorizontalSeparator from "../common/HorizontalSeparator";
 import ChatBubble from "./ChatBubble";
 import ColorPalette from "./ColorPalette";
+import UIText from "../common/UIText";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -10,13 +10,30 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 export default class Message extends Component {
 
     render() {
-        return <View>
-            <View style={styles.row}>
-                <ChatBubble style={styles.bubble}
-                            side={"left"}
-                            text={this.props.text}/>
+        const {
+            side,
+            isLast,
+            isCorrect,
+            text,
+            bubbleStyle
+        } = this.props;
+
+        const marginBottom = isLast ? 20 : 1;
+
+        return <View key={this.key}>
+            <View style={[styles.row, {marginBottom: marginBottom}]}>
+                <ChatBubble
+                    style={[
+                        styles.bubble,
+                        styles[side],
+                        isLast && styles.last,
+                        isCorrect && styles.correct,
+                        bubbleStyle,
+                    ]}
+                >
+                    <UIText>{text}</UIText>
+                </ChatBubble>
             </View>
-            <View style={styles.separator}/>
         </View>
     }
 
@@ -27,6 +44,7 @@ const styles = {
     row: {
         flexDirection: 'row',
         paddingLeft: 20,
+        marginLeft: 20,
     },
     separator: {
         height: 3,
@@ -37,11 +55,16 @@ const styles = {
         paddingBottom: 10,
         paddingTop: 10,
     },
-    leftChatBubble: {
+    left: {
         margin: 5,
         backgroundColor: ColorPalette.LIGHT_GRAY_1,
     },
-    rightChatBubble: {
+    right: {
         right: 20,
-    }
+        backgroundColor: ColorPalette.AQUA_2,
+    },
+    last: {
+        borderBottomLeftRadius: 0,
+    },
+    correct: {}
 };

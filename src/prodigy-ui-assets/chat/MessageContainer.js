@@ -1,8 +1,5 @@
 import React, {Component} from "react";
-import {Dimensions, FlatList, LayoutAnimation, TouchableWithoutFeedback, UIManager, View} from "react-native";
-import HorizontalSeparator from "../common/HorizontalSeparator";
-import ChatBubble from "./ChatBubble";
-import ColorPalette from "./ColorPalette";
+import {Dimensions, FlatList, TouchableWithoutFeedback} from "react-native";
 import Message from "./Message";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -13,14 +10,14 @@ export default class MessageContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: props.data.reverse()
+            data: this.prepareMessages(props.data)
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
             this.setState({
-                data: nextProps.data.reverse()
+                data: this.prepareMessages(nextProps.data)
             })
         }
     }
@@ -40,13 +37,34 @@ export default class MessageContainer extends Component {
                           onScrollEnd={() => {
                               console.log("on scroll")
                           }}
-                          renderItem={({item}) => {
-                              return <Message text={item.text}/>
-                          }}
+                          renderItem={({item}) => this.renderMessage(item)}
                           inverted={true}
                 />
-            </TouchableWithoutFeedback>
-        )
+            </TouchableWithoutFeedback>)
+    }
+
+    renderMessage(item) {
+        return <Message key={item.key} {...item}/>;
+    }
+
+    prepareMessages(data) {
+        let reversed = data.reverse();
+        let result = [];
+        let lastSender = null;
+        let key = 0;
+        for (let item of reversed) {
+            const currentSender = item.from;
+            result.push({
+                key: key,
+                text: item.text,
+                sender: currentSender,
+                isLast: currentSender !== lastSender,
+                side: currentSender === this.props.from ? "right" : "left"
+            });
+            lastSender = currentSender;
+            key++;
+        }
+        return result;
     }
 
     scrollToEnd(animated = true) {
