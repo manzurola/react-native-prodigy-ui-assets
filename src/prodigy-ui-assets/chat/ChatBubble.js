@@ -1,22 +1,41 @@
 import React, {Component} from "react";
 import {View} from "react-native";
-import UIText from "../common/UIText";
 import ColorPalette from "./ColorPalette";
 
 export default class ChatBubble extends Component {
+
+    // constructor(props){
+    //     super(props);
+    //     console.log("ChatBubble props:");
+    //     console.log(props);
+    // }
+
     render() {
         const {
             side,
             isLast,
             isCorrect,
-            text
         } = this.props;
+
+        let isRightSide = side === 'right';
+
+        let borderTopLeftRadius = 15;
+        let borderTopRightRadius = 15;
+        let borderBottomLeftRadius = isLast && !isRightSide ? 2 : 15;
+        let borderBottomRightRadius = isLast && isRightSide ? 2 : 15;
+
         return (
             <View style={[styles.container,
                 styles[side],
-                isLast && styles.last,
+                {
+                    borderTopLeftRadius: borderTopLeftRadius,
+                    borderTopRightRadius: borderTopRightRadius,
+                    borderBottomLeftRadius: borderBottomLeftRadius,
+                    borderBottomRightRadius: borderBottomRightRadius,
+                },
                 isCorrect && styles.correct,
-                this.props.style]}>
+                this.props.style]}
+            >
                 {this.props.children}
             </View>
         )
@@ -26,28 +45,25 @@ export default class ChatBubble extends Component {
 
 const styles = {
     container: {
-        borderRadius: 20,
         backgroundColor: 'white',
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 10,
-        paddingTop: 10,
-    },
-    bubble: {
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 10,
-        paddingTop: 10,
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingBottom: 7,
+        paddingTop: 7,
     },
     left: {
-        margin: 5,
-        backgroundColor: ColorPalette.LIGHT_GRAY_1,
-        borderBottomLeftRadius: 0,
+        backgroundColor: ColorPalette.LIGHT_GRAY_2,
+        borderBottomLeftRadius: 5,
+    },
+    leftLast: {
+
     },
     right: {
-        right: 20,
         backgroundColor: ColorPalette.AQUA_2,
-        borderBottomRightRadius: 0,
+        borderBottomRightRadius: 5,
+    },
+    rightLast: {
+
     },
     last: {
         borderBottomLeftRadius: 0,

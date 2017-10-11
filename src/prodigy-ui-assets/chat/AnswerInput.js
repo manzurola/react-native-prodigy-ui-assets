@@ -15,14 +15,15 @@ export default class AnswerInput extends Component {
             isEmpty: true,
             index: 0,
             answer: [],
-            isKeyboardShowing: props.showKeyboard || false
+            keyboardOpen: props.showKeyboard || false,
+            submitOnAnswerLengthReached: true,
         };
 
         let splitChoices = [];
         let longest = 0;
 
         for (let i = 0; i < props.choices.length; i++) {
-            let longChoice = props.choices[i];
+            let longChoice = props.choices[i].text;
             let words = longChoice.split(" ").map(function (item) {
                 return item.trim();
             });
@@ -41,27 +42,29 @@ export default class AnswerInput extends Component {
             }
             choices.push(choicesAtI);
         }
-
+        console.log("Longest choice length " + longest);
         this.choices = choices;
+        this.maxAnswerLength = longest; // take the first choice's length as the desired answer length (all choices must have same length)
     }
 
     render() {
         return (
             <View style={[styles.container, this.props.style]}>
+                <View style={styles.topSeparator}/>
                 <View style={styles.input}>
                     <TouchableOpacity onPress={() => {
-                                          this.onInputPress();
-                                      }}
+                        this.onInputPress();
+                    }}
                                       onLayout={(event) => {
                                           console.log("input changed size");
-                                          console.log(event.nativeEvent);
+                                          // console.log(event.nativeEvent);
                                       }}
                     >
                         {this.state.isEmpty ? this.renderPlaceholderText() : this.renderInputText()}
                     </TouchableOpacity>
                 </View>
                 <ThreeWordsKeyboard
-                    showing={this.state.isKeyboardShowing}
+                    showing={this.state.keyboardOpen}
                     choices={this.choices[this.state.index]}
                     onKeyDidPress={(text) => this.pushWord(text)}
                 />
@@ -69,10 +72,12 @@ export default class AnswerInput extends Component {
         )
     }
 
-    showKeyboard() {
-        this.setState({
-            showChoices: true,
-        })
+    renderPlaceholderText() {
+        return <UIText style={styles.placeholderText}>{this.props.placeholderText}</UIText>
+    }
+
+    renderInputText() {
+        return <UIText style={styles.inputText}>{this.concatenateInputValues()}</UIText>
     }
 
     // show choices or delete last word in answer
@@ -80,18 +85,9 @@ export default class AnswerInput extends Component {
         if (!this.state.isEmpty) {
             this.popWord();
         } else {
-            !this.state.isKeyboardShowing && this.showKeyboard();
+            !this.state.keyboardOpen && this.showKeyboard();
             this.onAnswerChange();
         }
-    }
-
-    // append word to answer
-    onButtonPress(text) {
-        this.pushWord(text);
-    }
-
-    onAnswerChange() {
-        this.props.onAnswerChange(this.renderInputText());
     }
 
     pushWord(text) {
@@ -109,6 +105,7 @@ export default class AnswerInput extends Component {
     setAnswer(input) {
         let newIndex = input.length;
         let lastIndex = this.choices.length - 1;
+        console.log("setting answer " + input + ", newIndex: " + newIndex + ", lastIndex: " + lastIndex);
         this.setState({
             isEmpty: input.length === 0,
             answer: input,
@@ -116,54 +113,80 @@ export default class AnswerInput extends Component {
         }, this.onAnswerChange);
     }
 
-    showKeyboard() {
-        console.log("showing choices");
+    onAnswerChange() {
+        console.log("answer input - input changed: " + this.concatenateInputValues());
+        this.props.onAnswerChange(this.concatenateInputValues());
+        if (this.state.submitOnAnswerLengthReached && this.state.answer.length === this.maxAnswerLength) {
+            this.submitInput();
+        }
+    }
+
+    submitInput() {
+        console.log("submit input");
+        const input = this.concatenateInputValues();
+        let isCorrect = false;
+
+        for (let i = 0; i < this.props.choices.length; i++) {
+            const choice = this.props.choices[i];
+            if (choice.isCorrect && input === choice) {
+                isCorrect = true;
+            }
+        }
+
         this.setState({
-            isKeyboardShowing: true
+            input: [],
+        }, () => {
+            this.hideKeyboard();
+            this.props.onSubmit({
+                input: input,
+                isCorrect: isCorrect,
+            });
+        })
+    }
+
+    showKeyboard() {
+        console.log("showing keyboard");
+        this.setState({
+            keyboardOpen: true
         }, this.props.onKeyboardDidShow());
     }
 
-    hideChoices() {
+    hideKeyboard() {
+        console.log("hiding keyboard");
         this.setState({
-            isKeyboardShowing: false
+            keyboardOpen: false
         }, this.props.onKeyboardDidHide())
     }
 
-    renderPlaceholderText() {
-        return <UIText style={styles.placeholderText}>{this.props.placeholderText}</UIText>
-    }
-
-    renderInputText() {
+    concatenateInputValues() {
         let {answer} = this.state;
+        if (answer.length === 0) return "";
         let text = answer[0];
         for (let i = 1; i < answer.length; i++) {
             text += " " + answer[i];
         }
-        return <UIText style={styles.inputText}>{text}</UIText>
+        return text;
     }
 }
 
 const styles = {
     container: {
-        backgroundColor: "white",
-        shadowColor: 'black',
-        shadowOffset: {
-            width: 0,
-            height: -3
-        },
-        shadowRadius: 3,
-        shadowOpacity: 0.5,
+        backgroundColor: ColorPalette.WHITE,
+        width: SCREEN_WIDTH,
+    },
+    topSeparator: {
+        height: 1,
+        backgroundColor: ColorPalette.LIGHT_GRAY_1,
     },
     input: {
-        width: SCREEN_WIDTH,
-        minHeight: 40,
-        paddingLeft: 30,
-        alignItems: 'flex-start',
+        minHeight: 60,
+        alignItems: 'center',
         justifyContent: 'center',
     },
     placeholderText: {
         textAlign: 'center',
-        color: ColorPalette.MEDIUM_GRAY_2
+        color: ColorPalette.MEDIUM_GRAY_2,
+        fontSize: 20,
     },
     inputText: {
         color: ColorPalette.BLACK
@@ -171,5 +194,6 @@ const styles = {
     button: {
         width: SCREEN_WIDTH / 3,
         borderRadius: 0,
+        backgroundColor: ColorPalette.MEDIUM_GRAY_1,
     }
 };

@@ -18,14 +18,14 @@ export default class Message extends Component {
             bubbleStyle
         } = this.props;
 
-        const marginBottom = isLast ? 20 : 1;
+        const marginBottom = isLast ? 10 : 1;
 
         return <View key={this.key}>
             <View style={[styles.row, {marginBottom: marginBottom}]}>
                 <ChatBubble
+                    side={side}
+                    isLast={isLast}
                     style={[
-                        styles.bubble,
-                        styles[side],
                         isLast && styles.last,
                         isCorrect && styles.correct,
                         bubbleStyle,
@@ -43,28 +43,10 @@ const styles = {
     container: {},
     row: {
         flexDirection: 'row',
-        paddingLeft: 20,
         marginLeft: 20,
     },
     separator: {
         height: 3,
-    },
-    bubble: {
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 10,
-        paddingTop: 10,
-    },
-    left: {
-        margin: 5,
-        backgroundColor: ColorPalette.LIGHT_GRAY_1,
-    },
-    right: {
-        right: 20,
-        backgroundColor: ColorPalette.AQUA_2,
-    },
-    last: {
-        borderBottomLeftRadius: 0,
     },
     correct: {}
 };

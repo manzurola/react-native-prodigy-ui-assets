@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Dimensions, View} from "react-native";
 import TextButton from "../common/TextButton";
+import ColorPalette from "./ColorPalette";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -26,6 +27,7 @@ export default class PredictiveTextKeyboard extends Component {
         let text = this.props.choices[i];
 
         return <TextButton
+            key={i}
             style={styles.button}
             text={text}
             onPress={() => this.onKeyDidPress(text)}
@@ -37,11 +39,14 @@ export default class PredictiveTextKeyboard extends Component {
 const styles = {
     container: {
         width: SCREEN_WIDTH,
-        height: 200,
-        flexDirection: 'column'
+        height: 50,
+        flexDirection: 'row',
+        // flex:1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     button: {
-        height: 30,
         flex: 1,
+        backgroundColor: ColorPalette.MEDIUM_GRAY_1,
     }
 };

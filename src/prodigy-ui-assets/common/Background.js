@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {View} from "react-native";
+import ColorPalette from "../chat/ColorPalette";
 
 export default class Background extends Component {
 
@@ -20,6 +21,6 @@ export default class Background extends Component {
 const styles = {
     container: {
         flex: 1,
-        backgroundColor: "#CFCDD7",
+        backgroundColor: ColorPalette.WHITE,
     }
 };

@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import {Dimensions, LayoutAnimation, UIManager, View} from "react-native";
 import ColorPalette from "./ColorPalette";
-import TextAnswerInput from "./AnswerInput";
+import AnswerInput from "./AnswerInput";
 import MessageContainer from "./MessageContainer";
-import Message from "./Message";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -23,17 +22,8 @@ const CustomLayoutLinear = {
 };
 
 const DATA = [
-    {id:0, text: 'Prepare to be crushed!'},
-    {id:1, text: 'Could you help me wiuth some howmeplease'},
-    {key: 'James', text: 'James'},
-    {key: 'Joel', text: 'Joel'},
-    {key: 'John', text: 'John\nasdasdasd\asdkjhdasd\vvskdjb'},
-    {key: 'Jillian', text: 'Jillian'},
-    {key: 'Jimmy', text: 'Jimmy'},
-    {key: 'Julie', text: 'Julie'},
-    {key: 'Julie2', text: 'Julie2'},
-    {key: 'Julie3', text: 'Julie3'},
-    {key: 'Julie4', text: 'Julie4'},
+    {id: 0, from: 'Johnny', text: 'Prepare to be crushed!'},
+    {id: 1, from: 'Johnny', text: 'Make my sentences plural, or suffer the consequences, human!'},
 ];
 
 export default class ChatActivity extends Component {
@@ -69,23 +59,16 @@ export default class ChatActivity extends Component {
     renderTextAnswerInput() {
         const {choices, instructions} = this.props;
         return (
-            <TextAnswerInput
+            <AnswerInput
                 style={styles.answer}
-                choices={this.props.choices}
-                placeholderText={this.props.instructions}
+                choices={choices}
+                placeholderText={instructions}
                 onAnswerChange={(newAnswer) => this.onAnswerChange(newAnswer)}
                 onKeyboardDidShow={() => this.onKeyboardDidShow()}
+                onKeyboardDidHide={() => this.onKeyboardDidHide()}
+                onSubmit={() => this.onSubmit()}
             />
         )
-    }
-
-    renderMessage(item) {
-        return <Message {...item}/>;
-    }
-
-    componentWillUpdate() {
-        // UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
-        // LayoutAnimation.configureNext(CustomLayoutLinear);
     }
 
     onKeyboardDidShow() {
@@ -93,6 +76,13 @@ export default class ChatActivity extends Component {
         this.setState({
             keyboardOpen: true,
         }, () => this.scrollToBottom());
+    }
+
+    onKeyboardDidHide() {
+        console.log("keyboard did hide");
+        this.setState({
+            keyboardOpen: false,
+        });
     }
 
     scrollToBottom(animated = true) {
@@ -103,6 +93,10 @@ export default class ChatActivity extends Component {
         console.log("evaluating answer [" + newAnswer + "]");
         UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
         LayoutAnimation.configureNext(CustomLayoutLinear);
+    }
+
+    onSubmit() {
+        console.log("submitting answer [" + this.state)
     }
 
 }
@@ -126,6 +120,7 @@ const styles = {
         paddingBottom: 50,
     },
     answer: {},
+    continueButton: {},
     leftChatBubble: {
         margin: 5,
         backgroundColor: ColorPalette.LIGHT_GRAY_1,

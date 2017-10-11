@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {TouchableHighlight, View} from "react-native";
+import {TouchableWithoutFeedback, View} from "react-native";
 import TimerMixin from "react-timer-mixin";
 import UIText from "./UIText";
 import FadeIn from "./FadeIn";
@@ -20,36 +20,30 @@ export default class TextButton extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setCharsFromText(nextProps.text);
-        // if (nextProps.text !== this.props.text) {
-        //     this.setCharsFromText(nextProps.text);
-        // }
+        if (nextProps.text !== this.props.text) {
+            this.setCharsFromText(nextProps.text);
+        }
     }
 
     render() {
         return (
-            <View style={[
-                styles.container,
-                // this.state.pressed && styles.pressed,
-                this.props.style,
-            ]}>
-                <TouchableHighlight
-                    style={this.state.pressed ? styles.pressed : {}}
-                    {...this.props}
-                    onPress={(event) => this.onPress(event)}
-                    onPressIn={() => {
-                        console.log("onHideUnderlay");
-                        this.setState({pressed: true});
-                    }}
-                    onPressOut={() => {
-                        this.setState({pressed: false});
-                        console.log("onShowUnderlay");
-                    }}>
-                    <View style={styles.textContainer}>
-                        {this.state.chars}
-                    </View>
-                </TouchableHighlight>
-            </View>
+
+            <TouchableWithoutFeedback
+                style={[styles.container, this.state.pressed && styles.pressed]}
+                {...this.props}
+                onPress={(event) => this.onPress(event)}
+                onShowUnderlay={() => {
+                    this.setState({pressed: true});
+                    console.log("onShowUnderlay");
+                }}
+                onHideUnderlay={() => {
+                    this.setState({pressed: false});
+                    console.log("onHideUnderlay");
+                }}>
+                <View style={styles.textContainer}>
+                    {this.state.chars}
+                </View>
+            </TouchableWithoutFeedback>
         )
     }
 
@@ -96,27 +90,24 @@ reactMixin(TextButton.prototype, TimerMixin);
 
 const styles = {
     container: {
-        // width: 200,
-        height: 45,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        // borderRadius: 45 / 2,
     },
     pressed: {
         backgroundColor: 'blue',
     },
     text: {
-        // borderWidth: 5,
         fontSize: 17,
         color: "black",
     },
     textPressed: {
-        color: "black",
+        color: "white",
     },
     textContainer: {
         flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
         flexDirection: 'row',
     }
 };

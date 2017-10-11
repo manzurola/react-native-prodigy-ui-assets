@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import Background from "../common/Background";
-import TransformActivity from "../activities/TransformActivity";
 import ChatActivity from "./ChatActivity";
 
 class ChatActivityDemo extends Component {
-    render () {
+    render() {
         return (
             <Background>
                 <ChatActivity {...data}/>
@@ -15,15 +14,13 @@ class ChatActivityDemo extends Component {
 
 export default ChatActivityDemo;
 
-let data ={
+let data = {
     instructions: "Put into the plural",
     targetSentence: "A dog is cute",
-    answer: "Dogs are cute",
     choices: [
-        "Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute ",
-        // "Dog are cute",
-        "Dogs are cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute ",
-        "A dogs are Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute Dogs is a cute "
+        {text: "Dogs a cute", isCorrect: false},
+        {text: "Dogs are cute", isCorrect: true},
+        {text: "A dogs are", isCorrect: false}
     ]
 
 };

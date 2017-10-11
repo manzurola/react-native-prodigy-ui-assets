@@ -27,7 +27,7 @@ export default class MessageContainer extends Component {
             <TouchableWithoutFeedback
                 style={this.props.style}
                 onLayout={(event) => {
-                    console.log(event.nativeEvent);
+                    // console.log(event.nativeEvent);
                 }}
                 onPress={() => {
                     console.log("chat screen pressed");
@@ -59,7 +59,7 @@ export default class MessageContainer extends Component {
                 text: item.text,
                 sender: currentSender,
                 isLast: currentSender !== lastSender,
-                side: currentSender === this.props.from ? "right" : "left"
+                side: item.right ? "right" : "left"
             });
             lastSender = currentSender;
             key++;
@@ -70,5 +70,4 @@ export default class MessageContainer extends Component {
     scrollToEnd(animated = true) {
         this.refs.flatList.scrollToIndex({viewPosition: 1, index: 0});
     }
-
 }
