@@ -38,25 +38,23 @@ export default class ThreeWordsKeyboard extends Component {
     }
 
     animateShow() {
-        Animated.timing(
+        Animated.spring(
             this.height,
             {
                 toValue: KEYBOARD_HEIGHT,
-                duration: 300,
-                easing: Easing.spring,
-                springDamping: 5,
+                speed: 5,
+                // useNativeDriver: true,
             }
         ).start();
     }
 
     animatedHide() {
-        Animated.timing(
+        Animated.spring(
             this.height,
             {
                 toValue: 0,
-                duration: 300,
-                easing: Easing.spring,
-                springDamping: 5,
+                speed: 5,
+                // useNativeDriver: true,
             }
         ).start();
     }
