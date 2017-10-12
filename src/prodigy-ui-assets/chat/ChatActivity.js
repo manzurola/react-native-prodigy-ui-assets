@@ -91,8 +91,8 @@ export default class ChatActivity extends Component {
 
     onAnswerChange(newAnswer) {
         console.log("evaluating answer [" + newAnswer + "]");
-        UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
-        LayoutAnimation.configureNext(CustomLayoutLinear);
+        // UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+        // LayoutAnimation.configureNext(CustomLayoutLinear);
     }
 
     onSubmit() {
