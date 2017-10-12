@@ -5,8 +5,7 @@ export default class UIText extends Text {
 
     render() {
         return (
-            <Text style={[styles.text]}
-                  {...this.props}
+            <Text style={[styles.text, this.props.style]}
             >
                 {this.props.children}
             </Text>

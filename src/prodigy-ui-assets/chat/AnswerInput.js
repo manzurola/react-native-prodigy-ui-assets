@@ -186,7 +186,6 @@ const styles = {
     placeholderText: {
         textAlign: 'center',
         color: ColorPalette.MEDIUM_GRAY_2,
-        fontSize: 20,
     },
     inputText: {
         color: ColorPalette.BLACK

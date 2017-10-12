@@ -22,5 +22,4 @@ let data = {
         {text: "Dogs are cute", isCorrect: true},
         {text: "A dogs are", isCorrect: false}
     ]
-
 };
